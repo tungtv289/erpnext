@@ -611,13 +611,13 @@ frappe.ui.form.on("Stock Entry", {
 				frm.doc.purpose
 			)
 		) {
-			frm.add_custom_button(
-				__("Bill of Materials"),
-				function () {
-					frm.events.get_items_from_bom(frm);
-				},
-				__("Get Items From")
-			);
+			// frm.add_custom_button(
+			// 	__("Bill of Materials"),
+			// 	function () {
+			// 		frm.events.get_items_from_bom(frm);
+			// 	},
+			// 	__("Get Items From")
+			// );
 		}
 	},
 
