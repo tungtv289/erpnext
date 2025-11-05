@@ -105,13 +105,13 @@ frappe.ui.form.on("Material Request", {
 	},
 
 	make_custom_buttons: function (frm) {
-		if (frm.doc.docstatus == 0) {
-			frm.add_custom_button(
-				__("Bill of Materials"),
-				() => frm.events.get_items_from_bom(frm),
-				__("Get Items From")
-			);
-		}
+		// if (frm.doc.docstatus == 0) {
+		// 	frm.add_custom_button(
+		// 		__("Bill of Materials"),
+		// 		() => frm.events.get_items_from_bom(frm),
+		// 		__("Get Items From")
+		// 	);
+		// }
 
 		if (frm.doc.docstatus == 1 && frm.doc.status != "Stopped") {
 			let precision = frappe.defaults.get_default("float_precision");
