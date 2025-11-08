@@ -76,14 +76,6 @@ frappe.query_reports["Stock Ledger"] = {
 			options: "UOM",
 		},
 		{
-			fieldname: "valuation_field_type",
-			label: __("Valuation Field Type"),
-			fieldtype: "Select",
-			width: "80",
-			options: "Currency\nFloat",
-			default: "Currency",
-		},
-		{
 			fieldname: "segregate_serial_batch_bundle",
 			label: __("Segregate Serial / Batch Bundle"),
 			fieldtype: "Check",
