@@ -489,14 +489,7 @@ class StockBalanceReport:
 					"fieldtype": "Float",
 					"width": 80,
 					"convertible": "qty",
-				},
-				{
-					"label": _("Company"),
-					"fieldname": "company",
-					"fieldtype": "Link",
-					"options": "Company",
-					"width": 100,
-				},
+				}
 			]
 		)
 

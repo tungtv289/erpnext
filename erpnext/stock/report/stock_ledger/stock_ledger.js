@@ -65,6 +65,11 @@ frappe.query_reports["Stock Ledger"] = {
 			options: "Item Group",
 		},
 		{
+			fieldname: "voucher_no",
+			label: __("Voucher #"),
+			fieldtype: "Data",
+		},
+		{
 			fieldname: "include_uom",
 			label: __("Include UOM"),
 			fieldtype: "Link",

@@ -268,13 +268,6 @@ def get_columns(filters):
 				"options": "Item Group",
 				"width": 100,
 			},
-			{
-				"label": _("Brand"),
-				"fieldname": "brand",
-				"fieldtype": "Link",
-				"options": "Brand",
-				"width": 100,
-			},
 			{"label": _("Description"), "fieldname": "description", "width": 200},
 			{
 				"label": _("Incoming Rate"),
@@ -325,42 +318,7 @@ def get_columns(filters):
 				"fieldtype": "Dynamic Link",
 				"options": "voucher_type",
 				"width": 100,
-			},
-			{
-				"label": _("Batch"),
-				"fieldname": "batch_no",
-				"fieldtype": "Link",
-				"options": "Batch",
-				"width": 100,
-			},
-			{
-				"label": _("Serial No"),
-				"fieldname": "serial_no",
-				"fieldtype": "Link",
-				"options": "Serial No",
-				"width": 100,
-			},
-			{
-				"label": _("Serial and Batch Bundle"),
-				"fieldname": "serial_and_batch_bundle",
-				"fieldtype": "Link",
-				"options": "Serial and Batch Bundle",
-				"width": 100,
-			},
-			{
-				"label": _("Project"),
-				"fieldname": "project",
-				"fieldtype": "Link",
-				"options": "Project",
-				"width": 100,
-			},
-			{
-				"label": _("Company"),
-				"fieldname": "company",
-				"fieldtype": "Link",
-				"options": "Company",
-				"width": 110,
-			},
+			}
 		]
 	)
 
