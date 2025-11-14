@@ -4,14 +4,6 @@
 frappe.query_reports["Stock Ledger"] = {
 	filters: [
 		{
-			fieldname: "company",
-			label: __("Company"),
-			fieldtype: "Link",
-			options: "Company",
-			default: frappe.defaults.get_user_default("Company"),
-			reqd: 1,
-		},
-		{
 			fieldname: "from_date",
 			label: __("From Date"),
 			fieldtype: "Date",
@@ -73,56 +65,11 @@ frappe.query_reports["Stock Ledger"] = {
 			options: "Item Group",
 		},
 		{
-			fieldname: "batch_no",
-			label: __("Batch No"),
-			fieldtype: "Link",
-			options: "Batch",
-			on_change() {
-				const batch_no = frappe.query_report.get_filter_value("batch_no");
-				if (batch_no) {
-					frappe.query_report.set_filter_value("segregate_serial_batch_bundle", 1);
-				} else {
-					frappe.query_report.set_filter_value("segregate_serial_batch_bundle", 0);
-				}
-			},
-		},
-		{
-			fieldname: "brand",
-			label: __("Brand"),
-			fieldtype: "Link",
-			options: "Brand",
-		},
-		{
-			fieldname: "voucher_no",
-			label: __("Voucher #"),
-			fieldtype: "Data",
-		},
-		{
-			fieldname: "project",
-			label: __("Project"),
-			fieldtype: "Link",
-			options: "Project",
-		},
-		{
 			fieldname: "include_uom",
 			label: __("Include UOM"),
 			fieldtype: "Link",
 			options: "UOM",
-		},
-		{
-			fieldname: "valuation_field_type",
-			label: __("Valuation Field Type"),
-			fieldtype: "Select",
-			width: "80",
-			options: "Currency\nFloat",
-			default: "Currency",
-		},
-		{
-			fieldname: "segregate_serial_batch_bundle",
-			label: __("Segregate Serial / Batch Bundle"),
-			fieldtype: "Check",
-			default: 0,
-		},
+		}
 	],
 	formatter: function (value, row, column, data, default_formatter) {
 		value = default_formatter(value, row, column, data);
