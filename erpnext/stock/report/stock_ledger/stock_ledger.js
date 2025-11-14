@@ -23,7 +23,7 @@ frappe.query_reports["Stock Ledger"] = {
 			fieldtype: "MultiSelectList",
 			options: "Warehouse",
 			get_data: function (txt) {
-				const company = frappe.query_report.get_filter_value("company");
+				const company = frappe.defaults.get_user_default("Company");
 
 				return frappe.db.get_link_options("Warehouse", txt, {
 					company: company,
