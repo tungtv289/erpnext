@@ -311,7 +311,6 @@ def get_columns(filters):
 				"width": 110,
 				"options": "Company:company:default_currency",
 			},
-			{"label": _("Voucher Type"), "fieldname": "voucher_type", "width": 110},
 			{
 				"label": _("Voucher #"),
 				"fieldname": "voucher_no",
