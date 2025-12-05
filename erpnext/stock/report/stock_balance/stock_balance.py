@@ -472,24 +472,7 @@ class StockBalanceReport:
 					"width": 80,
 					"convertible": "qty",
 				},
-				{"label": _("Out Value"), "fieldname": "out_val", "fieldtype": "Float", "width": 80},
-				{
-					"label": _("Valuation Rate"),
-					"fieldname": "val_rate",
-					"fieldtype": self.filters.valuation_field_type or "Currency",
-					"width": 90,
-					"convertible": "rate",
-					"options": "Company:company:default_currency"
-					if self.filters.valuation_field_type == "Currency"
-					else None,
-				},
-				{
-					"label": _("Reserved Stock"),
-					"fieldname": "reserved_stock",
-					"fieldtype": "Float",
-					"width": 80,
-					"convertible": "qty",
-				}
+				{"label": _("Out Value"), "fieldname": "out_val", "fieldtype": "Float", "width": 80}
 			]
 		)
 

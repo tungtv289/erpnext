@@ -87,23 +87,11 @@ frappe.query_reports["Stock Balance"] = {
 			fieldtype: "Check",
 		},
 		{
-			fieldname: "ignore_closing_balance",
-			label: __("Ignore Closing Balance"),
-			fieldtype: "Check",
-			default: 0,
-		},
-		{
 			fieldname: "include_zero_stock_items",
 			label: __("Include Zero Stock Items"),
 			fieldtype: "Check",
-			default: 0,
-		},
-		{
-			fieldname: "show_dimension_wise_stock",
-			label: __("Show Dimension Wise Stock"),
-			fieldtype: "Check",
-			default: 0,
-		},
+			default: 1,
+		}
 	],
 
 	formatter: function (value, row, column, data, default_formatter) {
