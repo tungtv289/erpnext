@@ -234,27 +234,6 @@ def get_columns(filters):
 	columns.extend(
 		[
 			{
-				"label": _("In Qty"),
-				"fieldname": "in_qty",
-				"fieldtype": "Float",
-				"width": 80,
-				"convertible": "qty",
-			},
-			{
-				"label": _("Out Qty"),
-				"fieldname": "out_qty",
-				"fieldtype": "Float",
-				"width": 80,
-				"convertible": "qty",
-			},
-			{
-				"label": _("Balance Qty"),
-				"fieldname": "qty_after_transaction",
-				"fieldtype": "Float",
-				"width": 100,
-				"convertible": "qty",
-			},
-			{
 				"label": _("Warehouse"),
 				"fieldname": "warehouse",
 				"fieldtype": "Link",
@@ -268,7 +247,13 @@ def get_columns(filters):
 				"options": "Item Group",
 				"width": 100,
 			},
-			{"label": _("Description"), "fieldname": "description", "width": 200},
+			{
+				"label": _("In Qty"),
+				"fieldname": "in_qty",
+				"fieldtype": "Float",
+				"width": 80,
+				"convertible": "qty",
+			},
 			{
 				"label": _("Incoming Rate"),
 				"fieldname": "incoming_rate",
@@ -278,14 +263,11 @@ def get_columns(filters):
 				"convertible": "rate",
 			},
 			{
-				"label": _("Avg Rate (Balance Stock)"),
-				"fieldname": "valuation_rate",
-				"fieldtype": filters.valuation_field_type,
-				"width": 180,
-				"options": "Company:company:default_currency"
-				if filters.valuation_field_type == "Currency"
-				else None,
-				"convertible": "rate",
+				"label": _("Out Qty"),
+				"fieldname": "out_qty",
+				"fieldtype": "Float",
+				"width": 80,
+				"convertible": "qty",
 			},
 			{
 				"label": _("Valuation Rate"),
@@ -296,6 +278,13 @@ def get_columns(filters):
 				if filters.valuation_field_type == "Currency"
 				else None,
 				"convertible": "rate",
+			},
+			{
+				"label": _("Balance Qty"),
+				"fieldname": "qty_after_transaction",
+				"fieldtype": "Float",
+				"width": 100,
+				"convertible": "qty",
 			},
 			{
 				"label": _("Balance Value"),
