@@ -83,7 +83,8 @@ def execute(filters=None):
 
 			sle.update({"qty_after_transaction": actual_qty, "stock_value": stock_value})
 
-		sle.update({"in_qty": max(sle.actual_qty, 0), "out_qty": min(sle.actual_qty, 0)})
+		# sle.update({"in_qty": max(sle.actual_qty, 0), "out_qty": min(sle.actual_qty, 0)})
+		sle.update({"in_out_qty": sle.actual_qty})
 
 		if sle.serial_no:
 			update_available_serial_nos(available_serial_nos, sle)
@@ -114,8 +115,9 @@ def get_segregated_bundle_entries(sle, bundle_details, batch_balance_dict, filte
 		new_sle.update(
 			{
 				"in_out_rate": flt(new_sle.stock_value_difference / row.qty) if row.qty else 0,
-				"in_qty": row.qty if row.qty > 0 else 0,
-				"out_qty": row.qty if row.qty < 0 else 0,
+				# "in_qty": row.qty if row.qty > 0 else 0,
+				# "out_qty": row.qty if row.qty < 0 else 0,
+				"in_out_qty": row.qty,
 				"qty_after_transaction": qty_before_transaction + row.qty,
 				"stock_value": stock_value_before_transaction + new_sle.stock_value_difference,
 				"incoming_rate": row.incoming_rate if row.qty > 0 else 0,
@@ -202,7 +204,14 @@ def update_available_serial_nos(available_serial_nos, sle):
 
 def get_columns(filters):
 	columns = [
-		{"label": _("Date"), "fieldname": "date", "fieldtype": "Datetime", "width": 150},
+		{"label": _("Date"), "fieldname": "date", "fieldtype": "Date", "width": 110},
+		{
+			"label": _("Voucher #"),
+			"fieldname": "voucher_no",
+			"fieldtype": "Dynamic Link",
+			"options": "voucher_type",
+			"width": 160,
+		},
 		{
 			"label": _("Item"),
 			"fieldname": "item_code",
@@ -210,13 +219,13 @@ def get_columns(filters):
 			"options": "Item",
 			"width": 100,
 		},
-		{"label": _("Item Name"), "fieldname": "item_name", "width": 100},
+		{"label": _("Item Name"), "fieldname": "item_name", "width": 200},
 		{
-			"label": _("Stock UOM"),
-			"fieldname": "stock_uom",
+			"label": _("Item Group"),
+			"fieldname": "item_group",
 			"fieldtype": "Link",
-			"options": "UOM",
-			"width": 90,
+			"options": "Item Group",
+			"width": 100,
 		},
 	]
 
@@ -241,57 +250,34 @@ def get_columns(filters):
 				"width": 150,
 			},
 			{
-				"label": _("Item Group"),
-				"fieldname": "item_group",
+				"label": _("Stock UOM"),
+				"fieldname": "stock_uom",
 				"fieldtype": "Link",
-				"options": "Item Group",
-				"width": 100,
+				"options": "UOM",
+				"width": 90,
 			},
 			{
-				"label": _("In Qty"),
-				"fieldname": "in_qty",
+				"label": _("In/Out Qty"),
+				"fieldname": "in_out_qty",
 				"fieldtype": "Float",
 				"width": 80,
 				"convertible": "qty",
 			},
-			{
-				"label": _("Incoming Rate"),
-				"fieldname": "incoming_rate",
-				"fieldtype": "Currency",
-				"width": 110,
-				"options": "Company:company:default_currency",
-				"convertible": "rate",
-			},
-			{
-				"label": _("Out Qty"),
-				"fieldname": "out_qty",
-				"fieldtype": "Float",
-				"width": 80,
-				"convertible": "qty",
-			},
+			# {
+			# 	"label": _("Incoming Rate"),
+			# 	"fieldname": "incoming_rate",
+			# 	"fieldtype": "Currency",
+			# 	"width": 110,
+			# 	"options": "Company:company:default_currency",
+			# 	"convertible": "rate",
+			# },
 			{
 				"label": _("Valuation Rate"),
 				"fieldname": "in_out_rate",
-				"fieldtype": filters.valuation_field_type,
-				"width": 140,
-				"options": "Company:company:default_currency"
-				if filters.valuation_field_type == "Currency"
-				else None,
-				"convertible": "rate",
-			},
-			{
-				"label": _("Balance Qty"),
-				"fieldname": "qty_after_transaction",
-				"fieldtype": "Float",
-				"width": 100,
-				"convertible": "qty",
-			},
-			{
-				"label": _("Balance Value"),
-				"fieldname": "stock_value",
 				"fieldtype": "Currency",
-				"width": 110,
+				"width": 140,
 				"options": "Company:company:default_currency",
+				"convertible": "rate",
 			},
 			{
 				"label": _("Value Change"),
@@ -299,13 +285,6 @@ def get_columns(filters):
 				"fieldtype": "Currency",
 				"width": 110,
 				"options": "Company:company:default_currency",
-			},
-			{
-				"label": _("Voucher #"),
-				"fieldname": "voucher_no",
-				"fieldtype": "Dynamic Link",
-				"options": "voucher_type",
-				"width": 100,
 			}
 		]
 	)
@@ -368,6 +347,12 @@ def get_stock_ledger_entries(filters, items):
 			)
 		else:
 			query = query.where(sle.batch_no == filters.batch_no)
+	
+	if filters.get("io_type"):
+		if filters.get("io_type") == "IN":
+			query = query.where(sle.actual_qty > 0)
+		elif filters.get("io_type") == "OUT":
+			query = query.where(sle.actual_qty < 0)
 
 	query = apply_warehouse_filter(query, sle, filters)
 

@@ -18,6 +18,16 @@ frappe.query_reports["Stock Ledger"] = {
 			reqd: 1,
 		},
 		{
+			fieldname: "io_type",
+			label: __("Stock Entry Type"),
+			fieldtype: "Autocomplete",
+			options: [
+				{ value: "IN", label: __("Material Receipt") },
+				{ value: "OUT", label: __("Material Issue") }
+			],
+			default: "IN"
+		},
+		{
 			fieldname: "warehouse",
 			label: __("Warehouses"),
 			fieldtype: "MultiSelectList",
@@ -77,11 +87,33 @@ frappe.query_reports["Stock Ledger"] = {
 		}
 	],
 	formatter: function (value, row, column, data, default_formatter) {
-		value = default_formatter(value, row, column, data);
-		if (column.fieldname == "out_qty" && data && data.out_qty < 0) {
-			value = "<span style='color:red'>" + value + "</span>";
-		} else if (column.fieldname == "in_qty" && data && data.in_qty > 0) {
-			value = "<span style='color:green'>" + value + "</span>";
+		if (column.fieldtype === "Float" || column.fieldtype === "Currency") {
+			// use raw data value if available, fallback to value string
+			const raw = data && data[column.fieldname];
+			const num = parseFloat(raw !== undefined && raw !== null && raw !== "" ? raw : String(value).replace(/,/g, ""));
+			if (isNaN(num)) {
+				value = default_formatter(value, row, column, data);
+			} else {
+				const sign = num < 0 ? "-" : "";
+				const abs = Math.abs(num);
+				// format with up to 3 decimals, trim trailing zeros (so .000 is removed)
+				const parts = abs.toFixed(3).split(".");
+				const intPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				let frac = parts[1] || "";
+				frac = frac.replace(/0+$/, ""); // remove trailing zeros
+				const formatted = frac ? intPart + "." + frac : intPart;
+				value = sign + formatted;
+			}
+		} else {
+			value = default_formatter(value, row, column, data);
+		}
+
+		if (column.fieldname == "in_out_qty") {
+			if (data && data.in_out_qty < 0) {
+				value = "<span style='color:red'>" + value + "</span>";
+			} else {
+				value = "<span style='color:green'>" + value + "</span>";
+			}
 		}
 
 		return value;
