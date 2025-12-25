@@ -3,14 +3,14 @@
 
 frappe.query_reports["Stock Balance"] = {
 	filters: [
-		{
-			fieldname: "from_date",
-			label: __("From Date"),
-			fieldtype: "Date",
-			width: "80",
-			reqd: 1,
-			default: frappe.datetime.add_months(frappe.datetime.get_today(), -1),
-		},
+		// {
+		// 	fieldname: "from_date",
+		// 	label: __("From Date"),
+		// 	fieldtype: "Date",
+		// 	width: "80",
+		// 	reqd: 1,
+		// 	default: frappe.datetime.add_months(frappe.datetime.get_today(), -1),
+		// },
 		{
 			fieldname: "to_date",
 			label: __("To Date"),
@@ -81,21 +81,40 @@ frappe.query_reports["Stock Balance"] = {
 				return frappe.db.get_link_options("Warehouse", txt, filters);
 			},
 		},
-		{
-			fieldname: "show_stock_ageing_data",
-			label: __("Show Stock Ageing Data"),
-			fieldtype: "Check",
-		},
-		{
-			fieldname: "include_zero_stock_items",
-			label: __("Include Zero Stock Items"),
-			fieldtype: "Check",
-			default: 1,
-		}
+		// {
+		// 	fieldname: "show_stock_ageing_data",
+		// 	label: __("Show Stock Ageing Data"),
+		// 	fieldtype: "Check",
+		// },
+		// {
+		// 	fieldname: "include_zero_stock_items",
+		// 	label: __("Include Zero Stock Items"),
+		// 	fieldtype: "Check",
+		// 	default: 1,
+		// }
 	],
 
 	formatter: function (value, row, column, data, default_formatter) {
-		value = default_formatter(value, row, column, data);
+		if (column.fieldtype === "Float" || column.fieldtype === "Currency") {
+			// use raw data value if available, fallback to value string
+			const raw = data && data[column.fieldname];
+			const num = parseFloat(raw !== undefined && raw !== null && raw !== "" ? raw : String(value).replace(/,/g, ""));
+			if (isNaN(num)) {
+				value = default_formatter(value, row, column, data);
+			} else {
+				const sign = num < 0 ? "-" : "";
+				const abs = Math.abs(num);
+				// format with up to 3 decimals, trim trailing zeros (so .000 is removed)
+				const parts = abs.toFixed(3).split(".");
+				const intPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				let frac = parts[1] || "";
+				frac = frac.replace(/0+$/, ""); // remove trailing zeros
+				const formatted = frac ? intPart + "." + frac : intPart;
+				value = sign + formatted;
+			}
+		} else {
+			value = default_formatter(value, row, column, data);
+		}
 
 		if (column.fieldname == "out_qty" && data && data.out_qty > 0) {
 			value = "<span style='color:red'>" + value + "</span>";

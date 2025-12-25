@@ -42,12 +42,12 @@ def execute(filters: StockBalanceFilter | None = None):
 class StockBalanceReport:
 	def __init__(self, filters: StockBalanceFilter | None) -> None:
 		self.filters = filters
-		self.from_date = getdate(filters.get("from_date"))
+		self.from_date = getdate(filters.get("to_date"))
 		self.to_date = getdate(filters.get("to_date"))
 
 		self.start_from = None
 		self.data = []
-		self.columns = []
+		self.columns = [] 
 		self.sle_entries: list[SLEntry] = []
 		self.set_company_currency()
 
@@ -389,15 +389,15 @@ class StockBalanceReport:
 				"fieldname": "item_code",
 				"fieldtype": "Link",
 				"options": "Item",
-				"width": 100,
+				"width": 120,
 			},
-			{"label": _("Item Name"), "fieldname": "item_name", "width": 150},
+			{"label": _("Item Name"), "fieldname": "item_name", "width": 250},
 			{
 				"label": _("Item Group"),
 				"fieldname": "item_group",
 				"fieldtype": "Link",
 				"options": "Item Group",
-				"width": 100,
+				"width": 120,
 			},
 			{
 				"label": _("Warehouse"),
@@ -433,14 +433,14 @@ class StockBalanceReport:
 					"label": _("Balance Qty"),
 					"fieldname": "bal_qty",
 					"fieldtype": "Float",
-					"width": 100,
+					"width": 120,
 					"convertible": "qty",
 				},
 				{
 					"label": _("Valuation Rate"),
 					"fieldname": "val_rate",
 					"fieldtype": self.filters.valuation_field_type or "Currency",
-					"width": 90,
+					"width": 160,
 					"convertible": "rate",
 					"options": "Company:company:default_currency"
 					if self.filters.valuation_field_type == "Currency"
@@ -450,39 +450,39 @@ class StockBalanceReport:
 					"label": _("Balance Value"),
 					"fieldname": "bal_val",
 					"fieldtype": "Currency",
-					"width": 100,
+					"width": 200,
 					"options": "Company:company:default_currency",
 				},
-				{
-					"label": _("Opening Qty"),
-					"fieldname": "opening_qty",
-					"fieldtype": "Float",
-					"width": 100,
-					"convertible": "qty",
-				},
-				{
-					"label": _("Opening Value"),
-					"fieldname": "opening_val",
-					"fieldtype": "Currency",
-					"width": 110,
-					"options": "Company:company:default_currency",
-				},
-				{
-					"label": _("In Qty"),
-					"fieldname": "in_qty",
-					"fieldtype": "Float",
-					"width": 80,
-					"convertible": "qty",
-				},
-				{"label": _("In Value"), "fieldname": "in_val", "fieldtype": "Float", "width": 80},
-				{
-					"label": _("Out Qty"),
-					"fieldname": "out_qty",
-					"fieldtype": "Float",
-					"width": 80,
-					"convertible": "qty",
-				},
-				{"label": _("Out Value"), "fieldname": "out_val", "fieldtype": "Float", "width": 80}
+				# {
+				# 	"label": _("Opening Qty"),
+				# 	"fieldname": "opening_qty",
+				# 	"fieldtype": "Float",
+				# 	"width": 100,
+				# 	"convertible": "qty",
+				# },
+				# {
+				# 	"label": _("Opening Value"),
+				# 	"fieldname": "opening_val",
+				# 	"fieldtype": "Currency",
+				# 	"width": 110,
+				# 	"options": "Company:company:default_currency",
+				# },
+				# {
+				# 	"label": _("In Qty"),
+				# 	"fieldname": "in_qty",
+				# 	"fieldtype": "Float",
+				# 	"width": 80,
+				# 	"convertible": "qty",
+				# },
+				# {"label": _("In Value"), "fieldname": "in_val", "fieldtype": "Float", "width": 80},
+				# {
+				# 	"label": _("Out Qty"),
+				# 	"fieldname": "out_qty",
+				# 	"fieldtype": "Float",
+				# 	"width": 80,
+				# 	"convertible": "qty",
+				# },
+				# {"label": _("Out Value"), "fieldname": "out_val", "fieldtype": "Float", "width": 80}
 			]
 		)
 
