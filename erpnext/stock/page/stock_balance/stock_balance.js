@@ -45,10 +45,9 @@ frappe.pages["stock-balance"].on_page_load = function (wrapper) {
 	page.sort_selector = new frappe.ui.SortSelector({
 		parent: page.wrapper.find(".page-form"),
 		args: {
-			sort_by: "projected_qty",
+			sort_by: "actual_qty",
 			sort_order: "asc",
 			options: [
-				{ fieldname: "projected_qty", label: __("Projected qty") },
 				{ fieldname: "actual_qty", label: __("Actual qty in stock") },
 			],
 		},
