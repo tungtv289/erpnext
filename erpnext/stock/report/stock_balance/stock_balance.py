@@ -389,9 +389,9 @@ class StockBalanceReport:
 				"fieldname": "item_code",
 				"fieldtype": "Link",
 				"options": "Item",
-				"width": 120,
+				"width": 370,
 			},
-			{"label": _("Item Name"), "fieldname": "item_name", "width": 250},
+			# {"label": _("Item Name"), "fieldname": "item_name", "width": 250},
 			{
 				"label": _("Item Group"),
 				"fieldname": "item_group",

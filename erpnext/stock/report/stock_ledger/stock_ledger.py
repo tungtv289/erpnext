@@ -217,9 +217,9 @@ def get_columns(filters):
 			"fieldname": "item_code",
 			"fieldtype": "Link",
 			"options": "Item",
-			"width": 100,
+			"width": 300,
 		},
-		{"label": _("Item Name"), "fieldname": "item_name", "width": 200},
+		# {"label": _("Item Name"), "fieldname": "item_name", "width": 200},
 		{
 			"label": _("Item Group"),
 			"fieldname": "item_group",
