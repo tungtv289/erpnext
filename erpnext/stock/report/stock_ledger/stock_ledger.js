@@ -19,11 +19,11 @@ frappe.query_reports["Stock Ledger"] = {
 		},
 		{
 			fieldname: "io_type",
-			label: __("Stock Entry Type"),
+			label: __("I/O type"),
 			fieldtype: "Autocomplete",
 			options: [
-				{ value: "IN", label: __("Material Receipt") },
-				{ value: "OUT", label: __("Material Issue") }
+				{ value: "IN", label: __("I/O type - In") },
+				{ value: "OUT", label: __("I/O type - Out") }
 			],
 			default: "IN"
 		},
